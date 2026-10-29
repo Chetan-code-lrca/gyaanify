@@ -221,7 +221,7 @@ A repository administrator must enable Pages for this fork:
 2. Under **Build and deployment → Source**, choose **GitHub Actions**.
 3. Save if GitHub shows a Save button.
 
-The workflow uses GitHub's Pages deployment APIs. If Pages has not been enabled, the `Configure GitHub Pages` step can fail with `Get Pages site failed` or HTTP `404 Not Found`. That failure occurs before building/deploying and is a repository setup prerequisite, not a broken HTML/CSS build. The `Site quality checks` workflow can still pass while Pages is disabled.
+The workflow first builds and validates the site, then invokes GitHub's Pages deployment API. If Pages has not been enabled, the deploy step fails with an HTTP `404 Not Found` / “Ensure GitHub Pages has been enabled” message. This is a repository setup prerequisite rather than a build failure: the build and `Site quality checks` can pass while Pages is disabled. After enabling Pages and selecting **GitHub Actions** as the source, rerun the deployment workflow.
 
 ### Trigger deployment
 
