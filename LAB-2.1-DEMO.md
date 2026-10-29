@@ -59,3 +59,12 @@ Only say that an individual check passed after actually testing it in the browse
 - [ ] Confirm the theme button has an accessible label and can be activated with Enter/Space.
 - [ ] Confirm no JavaScript errors appear in DevTools Console.
 
+## Maintainer-facing quality checks
+
+- [ ] Review the GitHub Actions **Site quality checks** run and resolve failures before requesting review.
+- [ ] Confirm `src/style.css` matches `assets/style.css` and `src/app_src.js` matches the generated app logic.
+- [ ] Build into a temporary directory and validate the generated site.
+- [ ] Test saved theme before and after page navigation/reload, in both system light and dark preferences.
+- [ ] Review the diff for the source files as well as generated HTML/assets; avoid merging generated-only fixes.
+- [ ] Attach before/after screenshots from a real browser when submitting visual changes.
+
