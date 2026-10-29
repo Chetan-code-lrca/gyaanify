@@ -3,6 +3,7 @@ name: Deploy Gyaanify to GitHub Pages
 on:
   push:
     branches:
+      - main
       - contrib/site-wide-theme-quality
   workflow_dispatch:
 
