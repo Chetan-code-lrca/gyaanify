@@ -1,168 +1,272 @@
 # Gyaanify
 
-Clear, practical lessons on security, cloud, AI and careers.
+**Practical, beginner-friendly learning paths for security, cloud, AI, DevOps, and tech careers.**
 
-- Live site (Firebase): https://gyaanify-web.web.app
-- Live site (GitHub Pages): https://shierenk.github.io/gyaanify/
+Gyaanify is a static learning website built with HTML, CSS, and vanilla JavaScript. It has no application server, database, package installation, or runtime API dependency.
 
-Gyaanify is a **static website**: plain HTML, CSS and JavaScript. There is no database and no framework, so it runs anywhere.
+- **Repository:** [Chetan-code-lrca/gyaanify](https://github.com/Chetan-code-lrca/gyaanify)
+- **Expected GitHub Pages URL:** [https://chetan-code-lrca.github.io/gyaanify/](https://chetan-code-lrca.github.io/gyaanify/)
+- **Deployment status:** The deployment workflow is committed. GitHub Pages must be enabled in repository settings before the first deployment can succeed.
+- **Quality checks:** [GitHub Actions](https://github.com/Chetan-code-lrca/gyaanify/actions)
 
----
+## Contents
 
-## Run it on your computer
+- [Features](#features)
+- [Design and themes](#design-and-themes)
+- [Technology](#technology)
+- [Run locally](#run-locally)
+- [Build and validate](#build-and-validate)
+- [Project structure](#project-structure)
+- [GitHub Pages deployment](#github-pages-deployment)
+- [Troubleshooting deployment](#troubleshooting-deployment)
+- [Contributing](#contributing)
+- [Project documentation](#project-documentation)
 
-### Option 1: just open it (no setup)
+## Features
 
-1. Download or clone this repository.
-2. Double-click `index.html` to open it in your browser.
+- Learning paths covering cyber safety, cloud fundamentals, DevOps, AI, careers, and hackathons.
+- Search across learning paths, lessons, and Azure certification material.
+- Catalogue filters for topic and experience level.
+- Lesson completion and progress tracking stored in the browser.
+- Azure certification roadmap and study resources.
+- Responsive navigation and page layouts.
+- Shared light/dark appearance with a user-selectable theme.
+- A custom 404 page and a legacy `shorts.html` redirect.
 
-Everything works this way, including search and lesson progress.
+## Design and themes
 
-### Option 2: run a local web server (recommended)
+The site-wide design update is implemented in the common stylesheet and JavaScript, rather than only on the homepage.
 
-A local server behaves exactly like the live site. Use **one** of these from inside the project folder.
+### Visual system
 
-**Python** (already installed on most Mac/Linux machines):
+- Consistent surfaces, borders, spacing, typography, buttons, and focus states across the homepage, catalogue, lesson pages, Azure/certification pages, resources, and 404 page.
+- Refined learning-path cards with topic-specific thumbnails, clearer level badges, hover/focus feedback, and an explicit learning-path action cue.
+- Responsive layouts and reduced-motion support.
+
+### Light and dark mode
+
+A theme control is added to the shared header by `assets/app.js`.
+
+- On first visit, the site follows the operating system's light/dark preference.
+- A saved preference takes precedence on later visits.
+- The selection is stored in browser `localStorage` using the key `gy-theme`.
+- `assets/theme-init.js` applies the saved preference before the main stylesheet loads to reduce a flash of the wrong theme.
+- The theme toggle uses CSS variables and vanilla JavaScript; it does not require a library, API key, or backend.
+
+Theme preference is local to each browser profile. It is not synced between devices.
+
+## Technology
+
+| Area | Implementation |
+|---|---|
+| Pages | Static HTML |
+| Styling | CSS custom properties and responsive CSS |
+| Client-side behavior | Vanilla JavaScript |
+| Content and page generation | Python 3, using the standard library |
+| Local validation | Python standard library and Node.js syntax checks |
+| Continuous integration | GitHub Actions |
+| Hosting target | GitHub Pages |
+
+No `npm install` is needed for the site or its validation workflow.
+
+## Run locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Chetan-code-lrca/gyaanify.git
+cd gyaanify
+```
+
+To work on the current theme and quality contribution instead of the default branch:
+
+```bash
+git fetch origin contrib/site-wide-theme-quality
+git switch --track -c contrib/site-wide-theme-quality origin/contrib/site-wide-theme-quality
+```
+
+If you already have the branch locally, run `git switch contrib/site-wide-theme-quality` instead.
+
+### 2. Start the static site server
+
+With Python 3 installed:
 
 ```bash
 python -m http.server 8000
 ```
 
-**Node.js:**
+Open [http://localhost:8000/](http://localhost:8000/) in your browser. Keep the terminal running while testing; press `Ctrl+C` to stop the server.
 
-```bash
-npx serve .
-```
+For WSL, run the command inside the Linux project directory. Windows browsers can normally open `http://localhost:8000/`.
 
-**Firebase CLI:**
+## Build and validate
 
-```bash
-firebase serve --only hosting
-```
+The checked-in HTML and `assets/` directory are the generated site. The canonical source files are in `src/`. When changing content, shared styles, or behavior, update the source and regenerate the output.
 
-Then open http://localhost:8000 (or the address the command prints).
+### Rebuild the checked-in website
 
-> **Windows tip:** if PowerShell says "running scripts is disabled", add `.cmd` to the command, for example `npx.cmd serve .` or `firebase.cmd serve --only hosting`.
-
----
-
-## Project structure
-
-```
-gyaanify-website/
-├── index.html              Home page
-├── paths.html              All learning paths (with filters)
-├── path-*.html             One page per learning path (lessons)
-├── azure.html              Azure certification roadmap
-├── cert-*.html             Study material for each certification
-├── resources.html          Free learning resources
-├── 404.html                Page-not-found page
-├── assets/
-│   ├── style.css           All styles (light and dark mode)
-│   └── app.js              Search, filters, progress tracking, insight of the day
-├── favicon.svg             Browser-tab icon
-├── src/                    Source used to generate the pages (not published)
-│   ├── content.py          All lesson, certification and resource text
-│   ├── build.py            Generates the HTML pages from content.py
-│   ├── style.css           Source stylesheet
-│   └── app_src.js          Source JavaScript
-├── firebase.json           Firebase Hosting settings
-└── .nojekyll               Tells GitHub Pages to publish files as they are
-```
-
----
-
-## Edit content
-
-All text lives in `src/content.py`:
-
-- `PATHS`: learning paths and their lessons
-- `CERTS`: Azure certifications and their study material
-- `RESOURCES`: links on the Resources page
-
-After editing, rebuild the pages (needs Python 3) from the project folder:
+From the repository root:
 
 ```bash
 python src/build.py .
 ```
 
-Then check the result locally (see above) before publishing.
+Review the generated diff before committing. The build outputs generated HTML and JavaScript/CSS assets; it does not replace repository configuration, documentation, or workflow files.
 
----
-
-## Publish changes
-
-**Firebase Hosting:**
+### Run the static-site checker
 
 ```bash
-firebase deploy --only hosting
+python scripts/check_site.py .
 ```
 
-**GitHub (also updates GitHub Pages):**
+The checker validates local file links, in-site anchors, duplicate HTML IDs, and required shared assets/theme bootstrap on content pages. It understands the catalogue's category chips, whose URL fragments select existing `data-v` filter values.
+
+### Check JavaScript syntax and generated-file consistency
+
+If Node.js is installed:
 
 ```bash
-git add .
-git commit -m "Describe your change"
-git push
+node --check assets/app.js
+node --check src/app_src.js
+node --check assets/theme-init.js
+node --check src/theme_init.js
+
+cmp src/style.css assets/style.css
+cmp src/theme_init.js assets/theme-init.js
+
+python -c 'from pathlib import Path; built = Path("assets/app.js").read_text(encoding="utf-8").split("\\n", 1)[1]; source = Path("src/app_src.js").read_text(encoding="utf-8"); assert built == source, "assets/app.js is out of sync with src/app_src.js"'
 ```
 
----
+### Rebuild into a separate preview directory
+
+To test generated output without replacing the checked-in files:
+
+```bash
+rm -rf _site
+python src/build.py _site
+cp favicon.svg .nojekyll shorts.html _site/
+python scripts/check_site.py _site
+python -m http.server 8000 --directory _site
+```
+
+Then open [http://localhost:8000/](http://localhost:8000/). Delete the temporary `_site/` directory after testing if you do not need it.
+
+### Browser regression checklist
+
+Before opening or updating a pull request, verify manually:
+
+- [ ] Light and dark modes both render legibly.
+- [ ] Theme selection persists after reload and navigation.
+- [ ] Homepage and catalogue cards link to the correct paths.
+- [ ] Search and topic/level filters work.
+- [ ] Lesson checkboxes and progress tracking work.
+- [ ] Mobile navigation works at narrow viewport widths.
+- [ ] Keyboard focus is visible and reduced-motion preferences are respected.
+- [ ] No new JavaScript errors appear in DevTools Console.
+
+## Project structure
+
+```text
+.
+├── index.html                   Homepage
+├── paths.html                   Filterable learning-path catalogue
+├── path-*.html                  Learning-path lesson pages
+├── azure.html                   Azure certification roadmap
+├── cert-*.html                  Certification study pages
+├── resources.html               Learning resources
+├── 404.html                     Not-found page
+├── shorts.html                  Legacy redirect to the homepage
+├── assets/
+│   ├── style.css                Generated shared stylesheet
+│   ├── app.js                   Generated search and site behavior
+│   └── theme-init.js            Early theme preference bootstrap
+├── src/
+│   ├── content.py               Learning paths, lessons, resources, certifications
+│   ├── build.py                 Generates HTML and runtime assets
+│   ├── style.css                Canonical stylesheet source
+│   ├── app_src.js               Canonical application JavaScript source
+│   └── theme_init.js            Canonical early theme bootstrap source
+├── scripts/
+│   └── check_site.py            Dependency-free link/anchor and asset checker
+├── .github/workflows/
+│   ├── site-check.yml           CI checks
+│   └── deploy-pages.yml         Build, validate, and deploy to GitHub Pages
+├── CONTRIBUTING.md              Contributor workflow and review expectations
+├── AI_PROMPT_LOG.md             Design and implementation prompt record
+├── LAB-2.1-DEMO.md              Challenge rubric and demo checklist
+├── firebase.json                Firebase Hosting configuration
+└── .nojekyll                    Disables Jekyll processing on Pages
+```
+
+### Editing guidance
+
+- Content: edit `src/content.py`.
+- Shared visual styles: edit `src/style.css`.
+- Client behavior: edit `src/app_src.js`.
+- Early theme selection: edit `src/theme_init.js`.
+- Page templates/build process: edit `src/build.py`.
+- Static-site validation: edit `scripts/check_site.py`.
+
+Regenerate and test the site after source changes. Commit relevant source files and generated output together. Avoid editing generated assets alone, because a rebuild would overwrite the change.
+
+## GitHub Pages deployment
+
+Deployment is handled by [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml). It builds the website from the source, checks JavaScript syntax and local links, validates generated/source asset parity, uploads the static `_site/` artifact, and deploys it to GitHub Pages.
+
+### One-time setup required
+
+A repository administrator must enable Pages for this fork:
+
+1. Open [Settings → Pages](https://github.com/Chetan-code-lrca/gyaanify/settings/pages).
+2. Under **Build and deployment → Source**, choose **GitHub Actions**.
+3. Save if GitHub shows a Save button.
+
+The workflow uses GitHub's Pages deployment APIs. If Pages has not been enabled, the `Configure GitHub Pages` step can fail with `Get Pages site failed` or HTTP `404 Not Found`. That failure occurs before building/deploying and is a repository setup prerequisite, not a broken HTML/CSS build. The `Site quality checks` workflow can still pass while Pages is disabled.
+
+### Trigger deployment
+
+The Pages workflow runs on pushes to `main` and `contrib/site-wide-theme-quality`, and supports manual execution:
+
+1. Open the [deployment workflow](https://github.com/Chetan-code-lrca/gyaanify/actions/workflows/deploy-pages.yml).
+2. Choose **Run workflow**.
+3. Select `contrib/site-wide-theme-quality` to deploy the reviewed contribution branch, or `main` after the change has been merged.
+4. Inspect the workflow run. The build must pass before the deploy job can run.
+
+Expected project-site URL after a successful deployment:
+
+**https://chetan-code-lrca.github.io/gyaanify/**
+
+GitHub Pages is public. Review the repository contents and remove secrets or private material before enabling public hosting. After the first successful deployment, confirm the published URL in **Settings → Pages** and test it in a real browser.
+
+### Deployment troubleshooting
+
+| Symptom | Cause / action |
+|---|---|
+| `Configure GitHub Pages` reports `Get Pages site failed` or HTTP 404 | Enable Pages and set the source to **GitHub Actions** in repository Settings → Pages, then rerun the workflow. |
+| Build or site-check job fails | Open the failed step in Actions; fix its specific log output before retrying. |
+| CSS/JavaScript does not reflect source edits | Run `python src/build.py .`, check generated diffs, and commit source plus generated assets. |
+| Theme flashes or the theme control is missing | Confirm the page loads `assets/theme-init.js` before `assets/style.css` and loads `assets/app.js` at the end of the body. |
+| Page loads but assets return 404 | Check that paths are relative (for example `assets/style.css`, not an absolute `/assets/style.css`) so the project-site `/gyaanify/` prefix is preserved. |
+| A workflow succeeds but the URL is not available yet | Check Settings → Pages for the published URL and wait for GitHub Pages to finish publishing; inspect the latest Actions run. |
 
 ## Contributing
 
-Found a mistake or want to suggest a topic? Open an issue or a pull request on GitHub.
+Contributions for content accuracy, accessibility, responsive behavior, performance, and learning experience are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before making a substantial change.
 
----
+For pull requests, include:
 
-## Lab 2.1 — AI Website Makeover
+1. The problem being addressed and who it helps.
+2. The implementation summary and relevant trade-offs.
+3. Automated check results and manual checks actually completed.
+4. Before/after screenshots for visual changes.
+5. Known limitations or follow-up work.
 
-This branch contains a focused makeover of the reusable learning-path cards. It improves visual hierarchy, topic thumbnails, hover and keyboard-focus feedback, and the visible learning-path action cue while keeping the site static and preserving its existing navigation and JavaScript behavior.
+Automated tests do not replace manual checks for color contrast, keyboard use, responsive behavior, or learning workflows.
 
-- [AI prompt log](AI_PROMPT_LOG.md): design brief, implementation constraints, and review prompt.
-- [Demo and validation checklist](LAB-2.1-DEMO.md): rubric mapping, browser tests, and a one-minute talk track.
+## Project documentation
 
-### Test locally
-
-Run from the repository root:
-
-```bash
-python -m http.server 8000
-```
-
-Then open http://localhost:8000/ and http://localhost:8000/paths.html. Complete the browser checklist before presenting the result; see [LAB-2.1-DEMO.md](LAB-2.1-DEMO.md). This is a CSS-only makeover and does not require an API key or cloud resources.
-
-### Site-wide design and day/night themes
-
-The makeover now applies across the shared site stylesheet and shared header, including the home page, learning catalogue, lesson pages, Azure/certification pages, resources, and the 404 page.
-
-- Use the **Dark mode / Light mode** button in the header to switch themes.
-- Your choice is saved in browser local storage and persists across pages.
-- On first visit, the site follows your operating-system color preference.
-- The theme is implemented with CSS variables and a small vanilla JavaScript toggle; no framework, API key, or cloud service is needed.
-
-Before presenting, test both theme modes on the homepage, catalogue, a lesson page, and a certification/resource page. Confirm text, cards, buttons, search, filters, and progress UI remain readable and functional.
-
-## Contributing and quality checks
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the source-of-truth files, build instructions, and local checks. GitHub Actions checks local links and anchors, JavaScript syntax, and whether generated assets match their source files.
-
-## Deploy on GitHub Pages
-
-This repository includes a GitHub Actions workflow that builds the generated site, validates links and source/generated asset consistency, and publishes the static output.
-
-### One-time repository setting
-
-1. Open **Settings → Pages** in this repository.
-2. Under **Build and deployment → Source**, select **GitHub Actions**.
-3. Save if GitHub presents a save button.
-
-### Publish
-
-The workflow deploys on pushes to `main` and `contrib/site-wide-theme-quality`, and can also be run manually from the Actions tab using **Deploy Gyaanify to GitHub Pages → Run workflow**.
-
-Expected project-site URL: https://chetan-code-lrca.github.io/gyaanify/
-
-The workflow rebuilds the site into `_site/` from `src/build.py`; it includes the favicon, `.nojekyll`, legacy `shorts.html` redirect, and generated theme bootstrap. It validates the output before uploading it to GitHub Pages. Build or deployment errors appear in the repository's **Actions** tab.
-
-GitHub Pages must be enabled in Settings before the deployment will complete. Browser-check the deployed URL after the workflow succeeds, especially theme switching, search, catalogue filters, and lesson progress.
-
+- [CONTRIBUTING.md](CONTRIBUTING.md) — source of truth, build process, validation, and PR expectations.
+- [AI_PROMPT_LOG.md](AI_PROMPT_LOG.md) — prompts and design decisions recorded for the makeover.
+- [LAB-2.1-DEMO.md](LAB-2.1-DEMO.md) — judging-criteria mapping and demo checklist.
+- [Site quality workflow](.github/workflows/site-check.yml) — automated quality checks.
+- [GitHub Pages workflow](.github/workflows/deploy-pages.yml) — deployment pipeline.
