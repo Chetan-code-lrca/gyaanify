@@ -18,6 +18,7 @@ class PageParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.ids: set[str] = set()
+        self.data_values: set[str] = set()
         self.duplicates: set[str] = set()
         self.references: list[tuple[str, str]] = []
         self.head_assets: list[str] = []
@@ -25,6 +26,10 @@ class PageParser(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
+        data_value = values.get("data-v")
+        if data_value:
+            self.data_values.add(data_value)
+
         element_id = values.get("id")
         if element_id:
             if element_id in self.ids:
@@ -130,7 +135,8 @@ def main() -> int:
             fragment = unquote(url.fragment)
             if fragment and target.suffix.lower() == ".html":
                 target_parser = parsers.get(target.resolve())
-                if target_parser and fragment not in target_parser.ids:
+                # Category chips use fragments to select data-v filters in paths.html.
+                if target_parser and fragment not in target_parser.ids and fragment not in target_parser.data_values:
                     errors.append(
                         f"{page.relative_to(root)}: missing anchor in "
                         f"{target.relative_to(root)}: #{fragment}"
