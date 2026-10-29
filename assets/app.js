@@ -6,6 +6,42 @@ window.GY_INDEX=[{"t": "Cyber Safety Essentials", "s": "Security \u00b7 learning
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   };
 
+  // Gyaanify theme switch: shared across every page that loads this script.
+  // A saved choice wins; otherwise follow the device preference.
+  (function initThemeSwitch() {
+    var root = document.documentElement;
+    var nav = document.querySelector(".top .nav");
+    if (!nav) return;
+    var saved = store.get("gy-theme");
+    var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var current = saved === "dark" || saved === "light" ? saved : (systemDark ? "dark" : "light");
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "theme-toggle";
+    button.setAttribute("aria-pressed", "false");
+    button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg><span class="theme-label">Dark mode</span>';
+    var burgerButton = $("burger");
+    nav.insertBefore(button, burgerButton || null);
+
+    function applyTheme(theme, persist) {
+      current = theme;
+      root.setAttribute("data-theme", theme);
+      root.style.colorScheme = theme;
+      var nextLabel = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+      button.setAttribute("aria-label", nextLabel);
+      button.setAttribute("title", nextLabel);
+      button.setAttribute("aria-pressed", String(theme === "dark"));
+      button.innerHTML = theme === "dark"
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg><span class="theme-label">Light mode</span>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.9 13A8.5 8.5 0 0 1 11 3.1 8.5 8.5 0 1 0 20.9 13Z"></path></svg><span class="theme-label">Dark mode</span>';
+      if (persist) store.set("gy-theme", theme);
+    }
+    button.addEventListener("click", function () {
+      applyTheme(current === "dark" ? "light" : "dark", true);
+    });
+    applyTheme(current, false);
+  })();
+
   // mobile menu
   var burger = $("burger"), mob = $("mobileNav");
   if (burger && mob) burger.addEventListener("click", function () {
