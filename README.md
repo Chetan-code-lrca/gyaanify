@@ -142,3 +142,7 @@ The makeover now applies across the shared site stylesheet and shared header, in
 
 Before presenting, test both theme modes on the homepage, catalogue, a lesson page, and a certification/resource page. Confirm text, cards, buttons, search, filters, and progress UI remain readable and functional.
 
+## Contributing and quality checks
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the source-of-truth files, build instructions, and local checks. GitHub Actions checks local links and anchors, JavaScript syntax, and whether generated assets match their source files.
+
