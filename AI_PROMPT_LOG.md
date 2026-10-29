@@ -32,3 +32,12 @@
 - Confirm no new errors in the browser console.
 
 Do not report the work as fully validated until these browser checks are complete.
+
+## Prompt 4 — Extend the design system and theme control site-wide
+
+> Extend the approved makeover beyond the homepage cards to the shared site experience. Keep the static HTML/CSS/vanilla-JavaScript architecture and preserve all current links, search, filters, lesson progress, and mobile navigation. Add a user-visible day/night toggle to the shared header on every page using the shared app script. Use the existing CSS variables so backgrounds, text, borders, surfaces, and controls switch together. Respect the operating-system preference on first visit, persist an explicit choice in localStorage, and make the toggle keyboard accessible with an accessible label. Refine shared buttons, focus states, search, cards, lesson surfaces, and footer with restrained styling. Do not add dependencies, remote APIs, or backend requirements. Test syntax and check every page that loads the shared app script; clearly distinguish code inspection from browser validation.
+
+**Implementation decision:** The theme control is injected into the common header by `assets/app.js`, so the repeated page templates do not each need a separate button. The CSS uses `data-theme="light"` and `data-theme="dark"` on the document root; a saved choice wins, otherwise the first load follows the OS preference. The selection is stored under `gy-theme`.
+
+**Validation status:** The shared HTML pages were checked for the shared script/header, and CSS brace balance was checked after editing. Real browser checks for visual contrast, theme persistence, mobile layout, and feature regressions remain to be completed locally.
+
