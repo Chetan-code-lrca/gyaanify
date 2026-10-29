@@ -2,14 +2,112 @@
 
 Clear, practical lessons on security, cloud, AI and careers.
 
-This is a static website (plain HTML, no build step). It is hosted with **GitHub Pages**.
+- Live site (Firebase): https://gyaanify-web.web.app
+- Live site (GitHub Pages): https://shierenk.github.io/gyaanify/
 
-## Files
+Gyaanify is a **static website**: plain HTML, CSS and JavaScript. There is no database and no framework, so it runs anywhere.
 
-- `index.html`: the whole website
-- `favicon.svg`: the browser-tab icon
-- `.nojekyll`: tells GitHub Pages to serve the files as they are
+---
 
-## Update the site
+## Run it on your computer
 
-Edit `index.html`, then commit and push. GitHub Pages republishes automatically within a minute or two.
+### Option 1: just open it (no setup)
+
+1. Download or clone this repository.
+2. Double-click `index.html` to open it in your browser.
+
+Everything works this way, including search and lesson progress.
+
+### Option 2: run a local web server (recommended)
+
+A local server behaves exactly like the live site. Use **one** of these from inside the project folder.
+
+**Python** (already installed on most Mac/Linux machines):
+
+```bash
+python -m http.server 8000
+```
+
+**Node.js:**
+
+```bash
+npx serve .
+```
+
+**Firebase CLI:**
+
+```bash
+firebase serve --only hosting
+```
+
+Then open http://localhost:8000 (or the address the command prints).
+
+> **Windows tip:** if PowerShell says "running scripts is disabled", add `.cmd` to the command, for example `npx.cmd serve .` or `firebase.cmd serve --only hosting`.
+
+---
+
+## Project structure
+
+```
+gyaanify-website/
+├── index.html              Home page
+├── paths.html              All learning paths (with filters)
+├── path-*.html             One page per learning path (lessons)
+├── azure.html              Azure certification roadmap
+├── cert-*.html             Study material for each certification
+├── resources.html          Free learning resources
+├── 404.html                Page-not-found page
+├── assets/
+│   ├── style.css           All styles (light and dark mode)
+│   └── app.js              Search, filters, progress tracking, insight of the day
+├── favicon.svg             Browser-tab icon
+├── src/                    Source used to generate the pages (not published)
+│   ├── content.py          All lesson, certification and resource text
+│   ├── build.py            Generates the HTML pages from content.py
+│   ├── style.css           Source stylesheet
+│   └── app_src.js          Source JavaScript
+├── firebase.json           Firebase Hosting settings
+└── .nojekyll               Tells GitHub Pages to publish files as they are
+```
+
+---
+
+## Edit content
+
+All text lives in `src/content.py`:
+
+- `PATHS`: learning paths and their lessons
+- `CERTS`: Azure certifications and their study material
+- `RESOURCES`: links on the Resources page
+
+After editing, rebuild the pages (needs Python 3) from the project folder:
+
+```bash
+python src/build.py .
+```
+
+Then check the result locally (see above) before publishing.
+
+---
+
+## Publish changes
+
+**Firebase Hosting:**
+
+```bash
+firebase deploy --only hosting
+```
+
+**GitHub (also updates GitHub Pages):**
+
+```bash
+git add .
+git commit -m "Describe your change"
+git push
+```
+
+---
+
+## Contributing
+
+Found a mistake or want to suggest a topic? Open an issue or a pull request on GitHub.

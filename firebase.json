@@ -8,11 +8,21 @@
       "**/.*",
       "**/.*/**",
       "README.md",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "src/**",
+      "**/__pycache__/**"
     ],
     "cleanUrls": true,
     "headers": [
-      { "source": "**/*.@(svg|png|jpg|css|js)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }] }
+      {
+        "source": "**/*.@(svg|png|jpg|css|js)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
+          }
+        ]
+      }
     ]
   }
 }
