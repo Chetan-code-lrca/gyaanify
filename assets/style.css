@@ -525,6 +525,23 @@ h1{line-height:1.08}
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
+  /* Core tokens must be explicit so manual dark mode works even on a light OS. */
+  --bg: #0A0A0A;
+  --surface: #121212;
+  --surface-2: #1A1A1A;
+  --line: #242424;
+  --line-2: #333333;
+  --ink: #FFFFFF;
+  --text: #E6E6E6;
+  --muted: #A3A3A3;
+  --dim: #737373;
+  --accent: #FFFFFF;
+  --on-accent: #0A0A0A;
+  --thumb: #161616;
+  --thumb-line: #2C2C2C;
+  --thumb-ink: #FFFFFF;
+  --good: #4ADE80;
+  --logo-cut: #0A0A0A;
   --brand-blue: #93c5fd;
   --brand-teal: #5eead4;
   --focus-ring: #93c5fd;
