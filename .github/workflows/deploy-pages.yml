@@ -1,0 +1,79 @@
+name: Deploy Gyaanify to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - contrib/site-wide-theme-quality
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and validate site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check src/app_src.js
+          node --check src/theme_init.js
+          node --check assets/theme-init.js
+          node --check assets/app.js
+
+      - name: Build static website
+        run: |
+          python src/build.py _site
+          cp favicon.svg _site/favicon.svg
+          cp .nojekyll _site/.nojekyll
+          cp shorts.html _site/shorts.html
+
+      - name: Validate generated website
+        run: python scripts/check_site.py _site
+
+      - name: Verify generated assets match their sources
+        run: |
+          cmp src/style.css assets/style.css
+          cmp src/theme_init.js assets/theme-init.js
+          python -c 'from pathlib import Path; built = Path("assets/app.js").read_text(encoding="utf-8").split("\n", 1)[1]; source = Path("src/app_src.js").read_text(encoding="utf-8"); assert built == source, "assets/app.js is out of sync with src/app_src.js"'
+          test -f _site/index.html
+          test -f _site/404.html
+          test -f _site/assets/theme-init.js
+          test -f _site/shorts.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
