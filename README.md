@@ -146,3 +146,23 @@ Before presenting, test both theme modes on the homepage, catalogue, a lesson pa
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the source-of-truth files, build instructions, and local checks. GitHub Actions checks local links and anchors, JavaScript syntax, and whether generated assets match their source files.
 
+## Deploy on GitHub Pages
+
+This repository includes a GitHub Actions workflow that builds the generated site, validates links and source/generated asset consistency, and publishes the static output.
+
+### One-time repository setting
+
+1. Open **Settings → Pages** in this repository.
+2. Under **Build and deployment → Source**, select **GitHub Actions**.
+3. Save if GitHub presents a save button.
+
+### Publish
+
+The workflow deploys on pushes to `main` and `contrib/site-wide-theme-quality`, and can also be run manually from the Actions tab using **Deploy Gyaanify to GitHub Pages → Run workflow**.
+
+Expected project-site URL: https://chetan-code-lrca.github.io/gyaanify/
+
+The workflow rebuilds the site into `_site/` from `src/build.py`; it includes the favicon, `.nojekyll`, legacy `shorts.html` redirect, and generated theme bootstrap. It validates the output before uploading it to GitHub Pages. Build or deployment errors appear in the repository's **Actions** tab.
+
+GitHub Pages must be enabled in Settings before the deployment will complete. Browser-check the deployed URL after the workflow succeeds, especially theme switching, search, catalogue filters, and lesson progress.
+
