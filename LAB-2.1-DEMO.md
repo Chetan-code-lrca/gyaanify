@@ -47,3 +47,15 @@ These are rubric-aligned deliverables, not a guaranteed score.
 **45–60 seconds — AI and reliability:** “I used a design prompt, an implementation prompt with scope constraints, and a critic prompt. I tested the existing workflows and responsive/accessibility checks listed here. These are the checks I completed, and these are any remaining limitations.”
 
 Only say that an individual check passed after actually testing it in the browser.
+
+## Site-wide theme switch checks
+
+- [ ] Toggle from light to dark mode in the header.
+- [ ] Navigate to another page and confirm the selected theme persists.
+- [ ] Reload and confirm the selection persists.
+- [ ] Test first-visit behavior in a fresh/private browser profile with system light mode, then dark mode.
+- [ ] Inspect the homepage, catalogue, one lesson page, Azure/certification page, and resources page in both modes.
+- [ ] Check text, links, buttons, search suggestions, filter buttons, lesson checkboxes, progress bar, and footer contrast.
+- [ ] Confirm the theme button has an accessible label and can be activated with Enter/Space.
+- [ ] Confirm no JavaScript errors appear in DevTools Console.
+
