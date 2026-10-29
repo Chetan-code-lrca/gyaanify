@@ -7,7 +7,7 @@
   --sans:"Geist","Helvetica Neue",Arial,sans-serif; --mono:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
   --wrap:1180px; --r:14px;
 }
-@media (prefers-color-scheme: dark){:root{
+@media (prefers-color-scheme: dark){:root:not([data-theme]){
   --bg:#0A0A0A; --surface:#121212; --surface-2:#1A1A1A; --line:#242424; --line-2:#333333;
   --ink:#FFFFFF; --text:#E6E6E6; --muted:#A3A3A3; --dim:#737373;
   --accent:#FFFFFF; --on-accent:#0A0A0A; --thumb:#161616; --thumb-line:#2C2C2C; --thumb-ink:#FFFFFF;
@@ -312,3 +312,353 @@ p{margin:0}
 @media (max-width:560px){.plan li{grid-template-columns:1fr;gap:4px}}
 .band-cta .btn .i{width:16px;height:16px}
 h1{line-height:1.08}
+
+/* Gyaanify Lab 2.1 — Enterprise learning-card makeover
+   Scope: learning-path cards only. Keeps existing HTML, search, filters,
+   navigation and progress-tracking behavior intact. */
+
+/* A restrained accent system that follows the site's existing light/dark theme. */
+:root {
+  --gy-card-accent: #2563eb;
+  --gy-card-accent-strong: #1d4ed8;
+  --gy-card-accent-soft: #eff6ff;
+  --gy-card-accent-line: #bfdbfe;
+  --gy-card-elevation: 0 16px 38px -26px rgba(15, 23, 42, .48);
+}
+:root[data-theme="dark"] {
+    --gy-card-accent: #93c5fd;
+    --gy-card-accent-strong: #bfdbfe;
+    --gy-card-accent-soft: #172554;
+    --gy-card-accent-line: #1e40af;
+  --gy-card-elevation: 0 18px 42px -26px rgba(0, 0, 0, .78);
+}
+
+/* Improve hierarchy and feedback without changing the existing card links. */
+.pcard {
+  position: relative;
+  min-height: 100%;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .05);
+  isolation: isolate;
+}
+.pcard::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gy-card-accent), #14b8a6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+.pcard:hover,
+.pcard:focus-visible {
+  border-color: var(--gy-card-accent-line);
+  box-shadow: var(--gy-card-elevation);
+}
+.pcard:hover::before,
+.pcard:focus-visible::before {
+  opacity: 1;
+}
+.pcard:focus-visible {
+  outline: 3px solid var(--gy-card-accent);
+  outline-offset: 4px;
+}
+.pcard:hover .pbody h3,
+.pcard:focus-visible .pbody h3 {
+  color: var(--gy-card-accent-strong);
+}
+
+/* Give each existing topic thumbnail a distinct, professional color identity. */
+.thumb.p-grid {
+  background-color: #0e1b36;
+  background-image:
+    linear-gradient(rgba(96, 165, 250, .17) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96, 165, 250, .17) 1px, transparent 1px),
+    radial-gradient(ellipse at 86% 8%, rgba(37, 99, 235, .52), transparent 58%);
+  background-size: 24px 24px, 24px 24px, 100% 100%;
+}
+.thumb.p-dots {
+  background-color: #092c31;
+  background-image:
+    radial-gradient(rgba(45, 212, 191, .28) 1.5px, transparent 1.5px),
+    radial-gradient(ellipse at 85% 5%, rgba(13, 148, 136, .5), transparent 60%);
+  background-size: 16px 16px, 100% 100%;
+}
+.thumb.p-diag {
+  background-color: #172343;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(129, 140, 248, .22) 0 1px, transparent 1px 14px),
+    radial-gradient(ellipse at 85% 10%, rgba(79, 70, 229, .4), transparent 62%);
+}
+.thumb.p-rings {
+  background-color: #10283c;
+  background-image:
+    repeating-radial-gradient(circle at 70% 120%, rgba(45, 212, 191, .22) 0 1px, transparent 1px 18px),
+    radial-gradient(ellipse at 15% 0%, rgba(8, 145, 178, .38), transparent 60%);
+}
+.thumb.p-lines {
+  background-color: #1b2140;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(165, 180, 252, .2) 0 1px, transparent 1px 12px),
+    radial-gradient(ellipse at 80% 10%, rgba(99, 102, 241, .42), transparent 62%);
+}
+.thumb.p-cross {
+  background-color: #132d29;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(94, 234, 212, .18) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(-45deg, rgba(94, 234, 212, .14) 0 1px, transparent 1px 18px),
+    radial-gradient(ellipse at 85% 5%, rgba(13, 148, 136, .4), transparent 62%);
+}
+.thumb-topic {
+  left: 16px;
+  top: 16px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: rgba(2, 6, 23, .62);
+  color: rgba(255, 255, 255, .92);
+  letter-spacing: .07em;
+  backdrop-filter: blur(8px);
+}
+.thumb-i {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .24));
+  transition: transform .2s ease, filter .2s ease;
+}
+.pcard:hover .thumb-i,
+.pcard:focus-visible .thumb-i {
+  transform: translateY(-2px) scale(1.045);
+  filter: drop-shadow(0 10px 17px rgba(0, 0, 0, .3));
+}
+
+/* Easier-to-scan card content and a visible navigation cue. */
+.pbody {
+  padding: 22px 22px 21px;
+  gap: 11px;
+}
+.pbody h3 {
+  font-size: clamp(18px, 1.4vw, 21px);
+  line-height: 1.25;
+  letter-spacing: -.025em;
+  transition: color .18s ease;
+}
+.pbody p {
+  line-height: 1.68;
+}
+.level {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border-color: var(--gy-card-accent-line);
+  background: var(--gy-card-accent-soft);
+  color: var(--gy-card-accent-strong);
+  font-size: 11px;
+  letter-spacing: .015em;
+}
+.meta {
+  flex-wrap: wrap;
+  row-gap: 7px;
+  margin-top: 9px;
+}
+.meta .i {
+  color: var(--gy-card-accent);
+}
+/* The whole card remains the existing anchor; this is a visible cue, not a new control. */
+.pbody::after {
+  content: "Explore learning path  →";
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  margin-top: 7px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--gy-card-accent-strong);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+.pcard:hover .pbody::after,
+.pcard:focus-visible .pbody::after {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Keep the grid usable with long copy and on narrow screens. */
+.cards {
+  align-items: stretch;
+}
+.pcard {
+  overflow: hidden;
+}
+@media (max-width: 620px) {
+  .pbody {
+    padding: 19px 18px 18px;
+  }
+  .thumb-topic {
+    left: 12px;
+    top: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pcard,
+  .pcard::before,
+  .thumb-i,
+  .pbody h3 {
+    transition: none !important;
+  }
+  .pcard:hover,
+  .pcard:hover .thumb-i,
+  .pcard:focus-visible .thumb-i {
+    transform: none;
+  }
+}
+
+/* Site-wide visual system: refined surfaces, controls, and explicit theme support. */
+:root {
+  color-scheme: light;
+  --brand-blue: #2563eb;
+  --brand-teal: #0d9488;
+  --focus-ring: #2563eb;
+  --panel-shadow: 0 14px 40px -28px rgba(15, 23, 42, .35);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  /* Core tokens must be explicit so manual dark mode works even on a light OS. */
+  --bg: #0A0A0A;
+  --surface: #121212;
+  --surface-2: #1A1A1A;
+  --line: #242424;
+  --line-2: #333333;
+  --ink: #FFFFFF;
+  --text: #E6E6E6;
+  --muted: #A3A3A3;
+  --dim: #737373;
+  --accent: #FFFFFF;
+  --on-accent: #0A0A0A;
+  --thumb: #161616;
+  --thumb-line: #2C2C2C;
+  --thumb-ink: #FFFFFF;
+  --good: #4ADE80;
+  --logo-cut: #0A0A0A;
+  --brand-blue: #93c5fd;
+  --brand-teal: #5eead4;
+  --focus-ring: #93c5fd;
+  --panel-shadow: 0 18px 46px -28px rgba(0, 0, 0, .75);
+}
+:root:not([data-theme]) { color-scheme: light; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) { color-scheme: dark; }
+}
+
+/* Gentle transitions are limited to the page shell and interactive surfaces. */
+body {
+  transition: background-color .18s ease, color .18s ease;
+}
+.top {
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .025);
+}
+.logo .mark {
+  color: var(--brand-blue);
+}
+.menu a[aria-current="page"],
+.mobile a[aria-current="page"] {
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.btn {
+  transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease, border-color .16s ease, opacity .16s ease;
+}
+.btn.dark {
+  box-shadow: 0 5px 14px -8px rgba(37, 99, 235, .65);
+}
+.btn.dark:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 9px 20px -10px rgba(37, 99, 235, .65);
+}
+.btn.outline:hover,
+.chip:hover,
+.insight-nav button:hover {
+  border-color: var(--brand-blue);
+}
+.search:focus-within {
+  border-color: var(--brand-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-blue) 16%, transparent);
+}
+.insight,
+.learn-box,
+.takeaways,
+.toc,
+.lesson,
+.note,
+.ccard,
+.nextpath,
+.filters,
+.list {
+  border-color: var(--line);
+}
+.lesson,
+.learn-box,
+.toc,
+.ccard,
+.note,
+.nextpath {
+  box-shadow: var(--panel-shadow);
+}
+.sec.alt {
+  background: color-mix(in srgb, var(--surface) 78%, var(--bg));
+}
+.foot {
+  background: var(--surface);
+}
+input, textarea, select {
+  accent-color: var(--brand-blue);
+}
+::selection {
+  color: var(--on-accent);
+  background: var(--brand-blue);
+}
+
+/* The theme switch is injected into the shared header by assets/app.js. */
+.theme-toggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 13px var(--sans);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.theme-toggle:hover {
+  border-color: var(--brand-blue);
+  background: var(--surface-2);
+}
+.theme-toggle svg {
+  width: 17px;
+  height: 17px;
+  color: var(--brand-blue);
+}
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.nav .theme-toggle { margin-left: auto; }
+@media (max-width: 780px) {
+  .nav { gap: 10px; }
+  .nav .theme-toggle { margin-left: auto; }
+  .theme-toggle { min-height: 38px; padding: 0 10px; }
+}
+@media (max-width: 380px) {
+  .theme-toggle .theme-label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body, .btn, .theme-toggle { transition: none !important; }
+}
+
