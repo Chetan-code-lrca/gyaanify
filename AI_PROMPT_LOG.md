@@ -41,3 +41,9 @@ Do not report the work as fully validated until these browser checks are complet
 
 **Validation status:** The shared HTML pages were checked for the shared script/header, and CSS brace balance was checked after editing. Real browser checks for visual contrast, theme persistence, mobile layout, and feature regressions remain to be completed locally.
 
+## Prompt 5 — Make the change maintainable for upstream review
+
+> Review the repository's source/generated-file workflow. Ensure styling and behavior edits live in the source files consumed by the build rather than only in generated assets. Add a tiny early theme bootstrap so saved light/dark preference is applied before stylesheets load. Add dependency-free automated checks for local links/anchors and shared asset inclusion, and a GitHub Actions workflow that checks JavaScript syntax and source/generated asset parity. Document how contributors reproduce the build and test changes. Keep the project dependency-free and do not claim browser tests were completed unless they were actually run.
+
+**Outcome:** `src/style.css` and `src/app_src.js` are aligned with `assets/style.css` and the generated `assets/app.js`. `src/build.py` emits the theme bootstrap before stylesheets and copies the generated bootstrap asset. CI checks local navigation, script syntax, generated output, and source/asset consistency. The link checker understands the existing category-chip convention where URL fragments correspond to `data-v` filter values rather than HTML IDs.
+
