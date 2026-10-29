@@ -330,8 +330,7 @@ h1{line-height:1.08}
     --gy-card-accent-strong: #bfdbfe;
     --gy-card-accent-soft: #172554;
     --gy-card-accent-line: #1e40af;
-    --gy-card-elevation: 0 18px 42px -26px rgba(0, 0, 0, .78);
-  }
+  --gy-card-elevation: 0 18px 42px -26px rgba(0, 0, 0, .78);
 }
 
 /* Improve hierarchy and feedback without changing the existing card links. */
