@@ -3,295 +3,138 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gyaanify</title>
 <meta name="description" content="Gyaanify: clear, practical lessons on security, cloud, AI and careers.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>Gyaanify</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
-<style>
-/* Layout: monochrome enterprise site. Hairline-bordered grids, one white accent, generous whitespace. Single dark theme by design. */
-:root{
-  --bg:#0A0A0A; --panel:#111111; --panel-2:#161616; --line:#242424; --line-2:#333333;
-  --ink:#EDEDED; --muted:#A1A1A1; --dim:#6E6E6E; --white:#FFFFFF; --black:#0A0A0A;
-  --sans:"Geist", "Helvetica Neue", Arial, sans-serif;
-  --mono:"Geist Mono", ui-monospace, Menlo, Consolas, monospace;
-  --wrap:1160px;
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.025em;text-wrap:balance;color:var(--white)}
-p{margin:0}
-.label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-:focus-visible{outline:2px solid var(--white);outline-offset:3px;border-radius:4px}
-section{padding-block:96px;border-top:1px solid var(--line)}
-.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;margin-bottom:48px}
-.sec-head>*{min-width:0}
-.sec-head h2{font-size:clamp(30px,4vw,44px);line-height:1.1}
-.sec-head p{color:var(--muted);max-width:52ch;justify-self:end}
-@media (max-width:820px){.sec-head{grid-template-columns:1fr}.sec-head p{justify-self:start}}
-
-/* nav */
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:saturate(1.2) blur(12px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:-.02em;color:var(--white)}
-.logo svg{width:28px;height:28px;flex:none}
-.menu{display:flex;gap:2px}
-.menu a{font-size:14px;color:var(--muted);padding:8px 12px;border-radius:6px}
-.menu a:hover{color:var(--white);background:var(--panel-2)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 18px;border-radius:8px;font:500 14px var(--sans);cursor:pointer;border:1px solid transparent;transition:background .15s,border-color .15s}
-.btn.solid{background:var(--white);color:var(--black)}
-.btn.solid:hover{background:#d9d9d9}
-.btn.line{border-color:var(--line-2);color:var(--ink);background:transparent}
-.btn.line:hover{border-color:var(--muted);background:var(--panel)}
-.btn.lg{height:48px;padding:0 24px;font-size:15px}
-@media (max-width:760px){.menu{display:none}}
-
-/* hero */
-.hero{position:relative;padding-block:120px 104px;border-top:0;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 30%,transparent 75%);opacity:.6}
-.hero::after{content:"";position:absolute;left:50%;top:-240px;width:900px;max-width:100%;height:520px;transform:translateX(-50%);background:radial-gradient(closest-side,#ffffff14,transparent);pointer-events:none}
-.hero-grid{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:center}
-.hero-grid>*{min-width:0}
-.badge{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);border:1px solid var(--line-2);border-radius:999px;padding:6px 14px 6px 8px;margin-bottom:28px;background:var(--panel)}
-.badge i{font-style:normal;font-family:var(--mono);font-size:11px;background:var(--white);color:var(--black);border-radius:999px;padding:2px 8px}
-.hero h1{font-size:clamp(42px,6.4vw,76px);line-height:1.02;letter-spacing:-.045em;margin-bottom:24px}
-.hero h1 span{color:var(--dim)}
-.hero .sub{font-size:18px;color:var(--muted);max-width:52ch;margin-bottom:36px}
-.cta{display:flex;gap:12px;flex-wrap:wrap}
-@media (max-width:900px){.hero-grid{grid-template-columns:1fr}.hero{padding-block:80px 72px}}
-
-.panel{border:1px solid var(--line-2);border-radius:14px;background:linear-gradient(180deg,var(--panel-2),var(--panel));overflow:hidden;box-shadow:0 30px 80px -40px #000}
-.panel-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
-.panel-top .dots{display:flex;gap:6px}
-.panel-top .dots i{width:10px;height:10px;border-radius:50%;background:var(--line-2)}
-.panel-body{padding:24px 22px;display:grid;gap:14px}
-.tip-topic{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.tip-text{font-size:24px;font-weight:600;line-height:1.25;letter-spacing:-.02em;color:var(--white);min-height:3.75em}
-.tip-why{color:var(--muted);font-size:15px;min-height:4.8em}
-.panel-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-top:1px solid var(--line)}
-.count{font-family:var(--mono);font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
-.arrows{display:flex;gap:8px}
-.arrows button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:transparent;color:var(--ink);cursor:pointer;font-size:15px}
-.arrows button:hover{border-color:var(--muted);background:var(--panel-2)}
-
-/* principles */
-.principles{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.principles div{padding:28px 24px;border-left:1px solid var(--line)}
-.principles div:first-child{border-left:0;padding-left:0}
-.principles b{display:block;color:var(--white);font-weight:600;margin-bottom:4px}
-.principles span{color:var(--muted);font-size:15px}
-@media (max-width:760px){.principles{grid-template-columns:1fr}.principles div{border-left:0;padding-left:0;border-top:1px solid var(--line)}.principles div:first-child{border-top:0}}
-
-/* topics */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.cell{background:var(--bg);padding:32px 28px;display:grid;gap:14px;align-content:start;transition:background .2s}
-.cell:hover{background:var(--panel)}
-.cell svg{width:28px;height:28px;color:var(--white)}
-.cell h3{font-size:20px}
-.cell p{color:var(--muted);font-size:15px}
-.cell .more{font-size:14px;color:var(--ink);margin-top:6px}
-.cell:hover .more{color:var(--white)}
-@media (max-width:900px){.grid{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.grid{grid-template-columns:1fr}}
-
-/* resources */
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
-.tabs button{height:34px;padding:0 14px;border-radius:8px;border:1px solid var(--line-2);background:transparent;color:var(--muted);font:500 13px var(--sans);cursor:pointer}
-.tabs button:hover{color:var(--white)}
-.tabs button[aria-pressed="true"]{background:var(--white);color:var(--black);border-color:var(--white)}
-.list{border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.row{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;padding:20px 24px;border-top:1px solid var(--line);transition:background .15s}
-.row:first-child{border-top:0}
-.row:hover{background:var(--panel)}
-.row>*{min-width:0}
-.row .cat{font-family:var(--mono);font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
-.row b{display:block;color:var(--white);font-weight:500}
-.row span{color:var(--muted);font-size:14px}
-.row .arr{color:var(--dim);font-size:18px}
-.row:hover .arr{color:var(--white)}
-@media (max-width:640px){.row{grid-template-columns:1fr auto;gap:6px 16px}.row .cat{grid-column:1/-1}}
-
-/* shorts */
-.shorts{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.short{aspect-ratio:3/4;max-width:100%;border:1px solid var(--line);border-radius:12px;background:radial-gradient(120% 80% at 50% 0%,#1d1d1d,var(--panel) 60%);padding:16px;display:flex;flex-direction:column;justify-content:space-between}
-.short .n{font-family:var(--mono);font-size:11px;color:var(--dim)}
-.short b{color:var(--white);font-weight:600;font-size:16px;line-height:1.25;letter-spacing:-.01em}
-.short .play{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
-.short .play i{width:24px;height:24px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;font-style:normal;font-size:9px}
-@media (max-width:900px){.shorts{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:520px){.shorts{grid-template-columns:1fr 1fr}}
-
-/* closing */
-.close{text-align:center}
-.close h2{font-size:clamp(32px,5vw,56px);line-height:1.05;letter-spacing:-.04em;margin-bottom:18px}
-.close p{color:var(--muted);margin:0 auto 32px;max-width:48ch}
-.close .cta{justify-content:center}
-
-footer{border-top:1px solid var(--line);padding-block:48px 40px}
-.foot{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
-.foot>*{min-width:0}
-.foot p{color:var(--dim);font-size:14px;margin-top:12px;max-width:36ch}
-.foot h4{margin:0 0 12px;font-size:13px;font-weight:500;color:var(--white)}
-.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.foot li a{color:var(--muted);font-size:14px}
-.foot li a:hover{color:var(--white)}
-.legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--dim);font-size:13px}
-@media (max-width:640px){.foot{grid-template-columns:1fr 1fr}.foot>div:first-child{grid-column:1/-1}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="mark" viewBox="0 0 32 32">
-    <rect x="0.5" y="0.5" width="31" height="31" rx="8" fill="#FFFFFF"/>
-    <path d="M22.5 11.2A8 8 0 1 0 24 16h-8" fill="none" stroke="#0A0A0A" stroke-width="3" stroke-linecap="square"/>
-    <rect x="21" y="21" width="3" height="3" fill="#0A0A0A"/>
-  </symbol>
-</svg>
-
-<header>
-  <div class="wrap nav">
-    <a class="logo" href="#top" aria-label="Gyaanify home"><svg><use href="#mark"/></svg>Gyaanify</a>
-    <nav class="menu" aria-label="Main">
-      <a href="#topics">Topics</a><a href="#resources">Resources</a><a href="#shorts">Shorts</a>
-    </nav>
-    <a class="btn solid" href="#topics">Start learning</a>
-  </div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap nav">
+  <a class="logo" href="index.html" aria-label="Gyaanify home"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x=".5" y=".5" width="31" height="31" rx="8" fill="currentColor"/><path d="M22.5 11.2A8 8 0 1 0 24 16h-8" fill="none" stroke="var(--logo-cut)" stroke-width="3" stroke-linecap="square"/><rect x="21" y="21" width="3" height="3" fill="var(--logo-cut)"/></svg><span>Gyaanify</span></a>
+  <nav class="menu" aria-label="Main"><a href="index.html" aria-current="page">Home</a><a href="paths.html">Learning paths</a><a href="azure.html">Azure</a><a href="resources.html">Resources</a></nav>
+  <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" id="burger"><span></span><span></span></button>
+</div>
+<nav class="mobile" id="mobileNav" aria-label="Main" hidden><a href="index.html" aria-current="page">Home</a><a href="paths.html">Learning paths</a><a href="azure.html">Azure</a><a href="resources.html">Resources</a></nav>
 </header>
+<main id="main">
 
-<main id="top">
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="badge"><i>NEW</i> Short lessons on online safety are live</span>
-        <h1>Learn what matters.<br><span>Skip the noise.</span></h1>
-        <p class="sub">Clear, practical lessons on security, cloud, AI and careers. Written to help you understand, not memorise.</p>
-        <div class="cta">
-          <a class="btn solid lg" href="#topics">Explore topics</a>
-          <a class="btn line lg" href="#resources">Browse resources</a>
-        </div>
-      </div>
-      <aside class="panel" aria-label="Insight of the day">
-        <div class="panel-top"><div class="dots"><i></i><i></i><i></i></div><span class="label">Insight of the day</span></div>
-        <div class="panel-body" aria-live="polite">
-          <span class="tip-topic" id="tipTopic">Security</span>
-          <p class="tip-text" id="tipText">Your UPI PIN is only for sending money. Never for receiving it.</p>
-          <p class="tip-why" id="tipWhy">If anyone asks you to scan a QR code or enter your PIN to receive money, it is a scam.</p>
-        </div>
-        <div class="panel-foot"><span class="count" id="tipCount">01 / 07</span><div class="arrows"><button type="button" id="tipPrev" aria-label="Previous insight">←</button><button type="button" id="tipNext" aria-label="Next insight">→</button></div></div>
-      </aside>
-    </div>
-    <div class="wrap" style="position:relative;margin-top:88px">
-      <div class="principles">
-        <div><b>Plain language</b><span>No jargon. Every term is explained the first time it appears.</span></div>
-        <div><b>Real examples</b><span>Lessons start from situations you actually face.</span></div>
-        <div><b>Free to learn</b><span>Every lesson and resource here is free to use.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="topics">
-    <div class="wrap">
-      <div class="sec-head"><div><span class="label">Topics</span><h2 style="margin-top:12px">Everything in one place</h2></div><p>Start anywhere. Each topic has short lessons, explainers and links to the best free material.</p></div>
-      <div class="grid">
-        <a class="cell" href="#resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2.5l8 3v6c0 5-3.4 9.2-8 10.5-4.6-1.3-8-5.5-8-10.5v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><h3>Security</h3><p>Recognise scams, protect your accounts and keep your data private.</p><span class="more">Explore →</span></a>
-        <a class="cell" href="#resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 8z"/></svg><h3>Cloud & DevOps</h3><p>How the cloud works and how modern teams build and ship software.</p><span class="more">Explore →</span></a>
-        <a class="cell" href="#resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9zM9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg><h3>Artificial intelligence</h3><p>Use AI tools well, understand AI agents, and know their limits.</p><span class="more">Explore →</span></a>
-        <a class="cell" href="#resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><h3>Careers</h3><p>Roadmaps, certifications, portfolios and interviews.</p><span class="more">Explore →</span></a>
-        <a class="cell" href="#resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3l-5 9h7l-2 9 11-12h-7l3-6z"/></svg><h3>Build & hack</h3><p>Project ideas, hackathon playbooks and how to present your work.</p><span class="more">Explore →</span></a>
-        <a class="cell" href="#resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><h3>More coming</h3><p>New topics are added regularly, from money basics to productivity.</p><span class="more">See resources →</span></a>
-      </div>
-    </div>
-  </section>
-
-  <section id="resources">
-    <div class="wrap">
-      <div class="sec-head"><div><span class="label">Resources</span><h2 style="margin-top:12px">The best free material</h2></div><p>Hand-picked, free and from trusted sources. Each link opens on its original site.</p></div>
-      <div class="tabs" role="group" aria-label="Filter resources" id="tabs"></div>
-      <div class="list" id="list"></div>
-    </div>
-  </section>
-
-  <section id="shorts">
-    <div class="wrap">
-      <div class="sec-head"><div><span class="label">Shorts</span><h2 style="margin-top:12px">One idea in 15 seconds</h2></div><p>Short videos that each explain one risk and one habit. New episodes are added regularly.</p></div>
-      <div class="shorts" id="shorts"></div>
-    </div>
-  </section>
-
-  <section class="close">
-    <div class="wrap">
-      <h2>Knowledge, made simple.</h2>
-      <p>Pick a topic and learn something useful in the next ten minutes.</p>
-      <div class="cta"><a class="btn solid lg" href="#topics">Explore topics</a><a class="btn line lg" href="#shorts">Watch shorts</a></div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="foot">
-      <div><a class="logo" href="#top"><svg><use href="#mark"/></svg>Gyaanify</a><p>Clear, practical lessons on security, cloud, AI and careers.</p></div>
-      <div><h4>Learn</h4><ul><li><a href="#topics">Topics</a></li><li><a href="#shorts">Shorts</a></li></ul></div>
-      <div><h4>Explore</h4><ul><li><a href="#resources">Resources</a></li><li><a href="#top">Insight of the day</a></li></ul></div>
-    </div>
-    <div class="legal"><span>© 2026 Gyaanify</span><span>Cyber fraud in India: call 1930 or visit cybercrime.gov.in</span></div>
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <span class="eyebrow">Free learning, made simple</span>
+    <h1>Learn the skills that matter, one short lesson at a time.</h1>
+    <p class="lede">Practical learning paths on security, cloud, AI and careers. Plain language, real examples, and every lesson takes about five minutes.</p>
+    <div class="search" role="search">
+  <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+  <input id="homeSearch" type="search" placeholder="Search lessons, e.g. phishing, CI/CD, prompts" autocomplete="off" aria-label="Search lessons">
+  <div class="results" id="homeSearch-results" hidden></div>
+</div>
+    <div class="chips"><a class="chip" href="paths.html#Security">Security</a><a class="chip" href="paths.html#Cloud &amp; DevOps">Cloud &amp; DevOps</a><a class="chip" href="paths.html#Artificial intelligence">Artificial intelligence</a><a class="chip" href="paths.html#Careers">Careers</a><a class="chip" href="paths.html#Build &amp; hack">Build &amp; hack</a></div>
   </div>
-</footer>
+  <aside class="insight" aria-label="Insight of the day">
+    <div class="insight-top"><span class="eyebrow">Insight of the day</span><span class="count" id="tipCount">01 / 07</span></div>
+    <span class="tag" id="tipTopic">Security</span>
+    <p class="insight-text" id="tipText">Your UPI PIN is only for sending money. Never for receiving it.</p>
+    <p class="insight-why" id="tipWhy">If anyone asks you to scan a QR code or enter your PIN to receive money, it is a scam.</p>
+    <div class="insight-nav"><button type="button" id="tipPrev" aria-label="Previous insight">←</button><button type="button" id="tipNext" aria-label="Next insight">→</button></div>
+  </aside>
+</div></section>
 
-<script>
-(function(){
-  const $=id=>document.getElementById(id);
-  const tips=[
-    ["Security","Your UPI PIN is only for sending money. Never for receiving it.","If anyone asks you to scan a QR code or enter your PIN to receive money, it is a scam."],
-    ["Security","New number plus an urgent money request? Call the old number first.","Scammers pretend to be family on WhatsApp. One call to the number you saved ends the scam."],
-    ["AI","Agree on a family code word.","AI can copy a voice from a few seconds of audio. It can't copy a secret only your family knows."],
-    ["Cloud","Start with the official free learning paths.","Microsoft Learn offers free beginner paths for Azure Fundamentals, with hands-on sandboxes."],
-    ["Careers","Show your work, not just your certificates.","One small project on GitHub with a short write-up says more than a list of course badges."],
-    ["Security","Police never arrest anyone over a video call.","There is no 'digital arrest'. Hang up, tell your family and report it."],
-    ["Learning","Teach what you learn.","Explaining an idea to someone else is the fastest way to understand it yourself."]
-  ];
-  let i=0;
-  function show(n){i=(n+tips.length)%tips.length;const[t,a,b]=tips[i];$("tipTopic").textContent=t;$("tipText").textContent=a;$("tipWhy").textContent=b;$("tipCount").textContent=String(i+1).padStart(2,"0")+" / "+String(tips.length).padStart(2,"0");}
-  $("tipPrev").onclick=()=>show(i-1);$("tipNext").onclick=()=>show(i+1);
-  show(Math.floor(Date.now()/864e5)%tips.length);
+<section class="stats"><div class="wrap stat-row">
+  <div><b>6</b><span>learning paths</span></div>
+  <div><b>25</b><span>short lessons</span></div>
+  <div><b>~5 min</b><span>per lesson</span></div>
+  <div><b>Free</b><span>no sign-up needed</span></div>
+</div></section>
 
-  const res=[
-    ["Security","National Cyber Crime Reporting Portal","Report fraud and cyber crime in India, or call 1930","https://cybercrime.gov.in"],
-    ["Security","Sanchar Saathi","Report suspected fraud calls and messages","https://sancharsaathi.gov.in"],
-    ["Security","Have I Been Pwned","Check whether your email appeared in a data breach","https://haveibeenpwned.com"],
-    ["Cloud","Microsoft Learn","Free official learning paths for Azure, DevOps and AI","https://learn.microsoft.com/training/"],
-    ["Cloud","Azure Fundamentals (AZ-900)","The starting point for anyone new to the cloud","https://learn.microsoft.com/credentials/certifications/azure-fundamentals/"],
-    ["AI","OWASP Top 10 for LLM Applications","The main risks when building with AI models and agents","https://genai.owasp.org"],
-    ["AI","Gandalf by Lakera","A game: try to trick an AI into revealing a password","https://gandalf.lakera.ai"],
-    ["Careers","TryHackMe","Beginner-friendly, hands-on security labs","https://tryhackme.com"],
-    ["Careers","PortSwigger Web Security Academy","Free web security lessons and labs","https://portswigger.net/web-security"],
-    ["Careers","OWASP","Open community resources on application security","https://owasp.org"]
-  ];
-  const cats=["All",...new Set(res.map(r=>r[0]))];
-  let cur="All";
-  try{const s=localStorage.getItem("gy-tab");if(s&&cats.includes(s))cur=s;}catch(e){}
-  function draw(){
-    const tabs=$("tabs");tabs.innerHTML="";
-    cats.forEach(c=>{const b=document.createElement("button");b.type="button";b.textContent=c;b.setAttribute("aria-pressed",c===cur);b.onclick=()=>{cur=c;try{localStorage.setItem("gy-tab",c)}catch(e){}draw();};tabs.appendChild(b);});
-    const list=$("list");list.innerHTML="";
-    res.filter(r=>cur==="All"||r[0]===cur).forEach(([c,t,d,u])=>{const a=document.createElement("a");a.className="row";a.href=u;a.target="_blank";a.rel="noopener";a.innerHTML='<span class="cat"></span><div><b></b><span></span></div><span class="arr">↗</span>';a.querySelector(".cat").textContent=c;a.querySelector("b").textContent=t;a.querySelector("div span").textContent=d;list.appendChild(a);});
-  }
-  draw();
+<section class="sec"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">Start here</span><h2>Popular learning paths</h2></div><a class="more" href="paths.html">View all paths <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  <div class="cards"><a class="pcard" href="path-cyber-safety.html" data-topic="Security" data-level="Beginner">
+  <div class="thumb p-grid"><span class="thumb-topic">Security</span><svg class="thumb-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5l8 3v6c0 5-3.4 9.2-8 10.5-4.6-1.3-8-5.5-8-10.5v-6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
+  <div class="pbody">
+    <span class="level">Beginner</span>
+    <h3>Cyber Safety Essentials</h3>
+    <p>Recognise everyday scams, protect your accounts and know exactly what to do if something goes wrong.</p>
+    <div class="meta"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span>5 lessons</span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>10 min</span></div>
+  </div>
+</a><a class="pcard" href="path-cloud-basics.html" data-topic="Cloud &amp; DevOps" data-level="Beginner">
+  <div class="thumb p-dots"><span class="thumb-topic">Cloud &amp; DevOps</span><svg class="thumb-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a5 5 0 1 1 1-9.9A6 6 0 0 1 19 10a4 4 0 0 1-1 8z"/></svg></div>
+  <div class="pbody">
+    <span class="level">Beginner</span>
+    <h3>Cloud Computing Basics</h3>
+    <p>Understand what the cloud really is, the main service models, and how to start learning Azure for free.</p>
+    <div class="meta"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span>4 lessons</span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>8 min</span></div>
+  </div>
+</a><a class="pcard" href="path-devops-foundations.html" data-topic="Cloud &amp; DevOps" data-level="Intermediate">
+  <div class="thumb p-diag"><span class="thumb-topic">Cloud &amp; DevOps</span><svg class="thumb-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M7.5 12h4l5-6M11.5 12l5 6"/></svg></div>
+  <div class="pbody">
+    <span class="level">Intermediate</span>
+    <h3>DevOps Foundations</h3>
+    <p>Learn how modern teams build, test and ship software quickly and safely, from CI/CD to security in the pipeline.</p>
+    <div class="meta"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span>4 lessons</span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>8 min</span></div>
+  </div>
+</a></div>
+</div></section>
 
-  const shorts=["One message, one click","Spot a phishing email","The “new number” trick","Too good to be true","Unknown video calls","The fake bill alert","“Digital arrest” is fake","Scan to receive?","When AI copies a voice","Act in the golden hour"];
-  const sg=$("shorts");
-  shorts.forEach((t,k)=>{const d=document.createElement("div");d.className="short";d.innerHTML='<span class="n"></span><b></b><span class="play"><i>▶</i>Coming soon</span>';d.querySelector(".n").textContent="EP "+String(k+1).padStart(2,"0");d.querySelector("b").textContent=t;sg.appendChild(d);});
-})();
-</script>
+<section class="sec alt"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">How it works</span><h2>Learn in three simple steps</h2></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><h3>Pick a path</h3><p>Choose a topic that fits your goal, from staying safe online to starting a tech career.</p></li>
+    <li><span class="n">2</span><h3>Take short lessons</h3><p>Each lesson explains one idea in plain words and ends with three key takeaways.</p></li>
+    <li><span class="n">3</span><h3>Practise and keep going</h3><p>Mark lessons complete, track your progress and practise with hand-picked free resources.</p></li>
+  </ol>
+</div></section>
 
+<section class="sec azband"><div class="wrap az-grid">
+  <div><span class="eyebrow">Certification path</span><h2>Get Azure certified, step by step</h2><p class="lede">Free study material for AZ-900, AI-901, AZ-104, AZ-400: what each exam covers, key concepts explained simply, study plans and exam tips.</p><a class="btn dark" href="azure.html" style="margin-top:22px">Explore Azure certifications</a></div>
+  <div class="az-steps"><a href="cert-az-900.html"><span class="ccode">AZ-900</span><span><b>Azure Fundamentals</b><em>Fundamentals</em></span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="cert-ai-901.html"><span class="ccode">AI-901</span><span><b>Azure AI Fundamentals</b><em>Fundamentals</em></span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="cert-az-104.html"><span class="ccode">AZ-104</span><span><b>Azure Administrator</b><em>Associate</em></span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="cert-az-400.html"><span class="ccode">AZ-400</span><span><b>DevOps Engineer Expert</b><em>Expert</em></span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">Keep learning</span><h2>More paths to explore</h2></div><a class="more" href="paths.html">View all paths <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  <div class="cards"><a class="pcard" href="path-ai-for-everyone.html" data-topic="Artificial intelligence" data-level="Beginner">
+  <div class="thumb p-rings"><span class="thumb-topic">Artificial intelligence</span><svg class="thumb-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+  <div class="pbody">
+    <span class="level">Beginner</span>
+    <h3>AI for Everyone</h3>
+    <p>Use AI tools confidently: how they work, how to ask good questions, and how to stay safe while using them.</p>
+    <div class="meta"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span>4 lessons</span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>8 min</span></div>
+  </div>
+</a><a class="pcard" href="path-career-starter.html" data-topic="Careers" data-level="Beginner">
+  <div class="thumb p-lines"><span class="thumb-topic">Careers</span><svg class="thumb-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+  <div class="pbody">
+    <span class="level">Beginner</span>
+    <h3>Tech Career Starter</h3>
+    <p>Choose a direction, pick the right certifications and build proof of your skills that employers notice.</p>
+    <div class="meta"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span>4 lessons</span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>8 min</span></div>
+  </div>
+</a><a class="pcard" href="path-hackathon-playbook.html" data-topic="Build &amp; hack" data-level="All levels">
+  <div class="thumb p-cross"><span class="thumb-topic">Build &amp; hack</span><svg class="thumb-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div>
+  <div class="pbody">
+    <span class="level">All levels</span>
+    <h3>Hackathon Playbook</h3>
+    <p>Go from idea to demo in a weekend: pick the right problem, work as a team, ship a working prototype and pitch it well.</p>
+    <div class="meta"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span>4 lessons</span><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>8 min</span></div>
+  </div>
+</a></div>
+</div></section>
+
+<section class="band"><div class="wrap band-in">
+  <div><h2>Start your first lesson today.</h2><p>No account, no cost. Just pick a path and begin.</p></div>
+  <div class="band-cta"><a class="btn light" href="path-cyber-safety.html">Start with Cyber Safety</a><a class="btn ghost-light" href="paths.html">Browse all paths</a></div>
+</div></section>
+
+</main>
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div><a class="logo" href="index.html"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x=".5" y=".5" width="31" height="31" rx="8" fill="currentColor"/><path d="M22.5 11.2A8 8 0 1 0 24 16h-8" fill="none" stroke="var(--logo-cut)" stroke-width="3" stroke-linecap="square"/><rect x="21" y="21" width="3" height="3" fill="var(--logo-cut)"/></svg><span>Gyaanify</span></a><p>Clear, practical lessons on security, cloud, AI and careers. Free to learn.</p></div>
+    <div><h4>Learn</h4><ul><li><a href="path-cyber-safety.html">Cyber Safety Essentials</a></li><li><a href="path-cloud-basics.html">Cloud Computing Basics</a></li><li><a href="path-devops-foundations.html">DevOps Foundations</a></li></ul></div>
+    <div><h4>More paths</h4><ul><li><a href="path-ai-for-everyone.html">AI for Everyone</a></li><li><a href="path-career-starter.html">Tech Career Starter</a></li><li><a href="path-hackathon-playbook.html">Hackathon Playbook</a></li></ul></div>
+    <div><h4>Explore</h4><ul><li><a href="paths.html">All learning paths</a></li><li><a href="azure.html">Azure certifications</a></li><li><a href="resources.html">Free resources</a></li></ul></div>
+  </div>
+  <div class="legal"><span>© 2026 Gyaanify</span><span>Cyber fraud in India? Call 1930 or visit cybercrime.gov.in</span></div>
+</div></footer>
+<script src="assets/app.js"></script>
 </body>
 </html>
