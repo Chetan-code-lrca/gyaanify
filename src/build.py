@@ -46,6 +46,7 @@ def page(fname, title, body, active="", desc="Gyaanify: clear, practical lessons
 <title>{E(title)}</title>
 <meta name="description" content="{E(desc)}">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script src="assets/theme-init.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/style.css">
@@ -336,5 +337,6 @@ here = os.path.dirname(os.path.abspath(__file__))
 for c in CERTS:
     idx.append({"t": c["code"] + ": " + c["name"], "s": "Azure certification · " + c["tier"], "u": f'cert-{c["slug"]}.html', "k": (c["summary"] + " " + " ".join(n[0] + " " + n[1] for n in c["notes"]) + " azure certification exam").lower()})
 open(os.path.join(OUT, "assets", "app.js"), "w").write("window.GY_INDEX=" + json.dumps(idx) + ";\n" + open(os.path.join(here, "app_src.js")).read())
-open(os.path.join(OUT, "assets", "style.css"), "w").write(open(os.path.join(here, "style.css")).read())\nopen(os.path.join(OUT, "assets", "theme-init.js"), "w").write(open(os.path.join(here, "theme_init.js")).read())
+open(os.path.join(OUT, "assets", "style.css"), "w").write(open(os.path.join(here, "style.css")).read())
+open(os.path.join(OUT, "assets", "theme-init.js"), "w").write(open(os.path.join(here, "theme_init.js")).read())
 print("built", len(os.listdir(OUT)))
