@@ -37,7 +37,11 @@ LOGO = '<svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect x=".5" y=
 NAV = [("index.html", "Home"), ("paths.html", "Learning paths"), ("azure.html", "Azure"), ("resources.html", "Resources")]
 
 def page(fname, title, body, active="", desc="Gyaanify: clear, practical lessons on security, cloud, AI and careers."):
-    nav = "".join(f'<a href="{h}"{" aria-current=\"page\"" if h == active else ""}>{t}</a>' for h, t in NAV)
+    nav = "".join(
+        f'<a href="{h}"{aria_current}>{t}</a>'
+        for h, t in NAV
+        for aria_current in (' aria-current="page"' if h == active else "",)
+    )
     doc = f'''<!doctype html>
 <html lang="en">
 <head>
