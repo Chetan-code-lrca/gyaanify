@@ -90,6 +90,23 @@ Then check the result locally (see above) before publishing.
 
 ---
 
+## Verify generated files
+
+The committed HTML pages and browser assets are generated from `src/content.py`, `src/app_src.js`, `src/style.css`, and `src/build.py`. Before opening a pull request, check that the generated deployment files match the source:
+
+```bash
+python scripts/check_generated.py
+```
+
+When the check reports differences, regenerate the deployment files from the repository root:
+
+```bash
+python src/build.py .
+python scripts/check_generated.py
+```
+
+GitHub Actions runs this check for pushes to `main` and pull requests. It catches stale committed pages when the source content or generator changes.
+
 ## Publish changes
 
 **Firebase Hosting:**
