@@ -281,7 +281,7 @@ for idx_c, c in enumerate(CERTS):
     notes = "".join(f"""<details class="note"{' open' if k==0 else ''}><summary>{E(t)}</summary><p>{E(b)}</p></details>""" for k,(t,b) in enumerate(c["notes"]))
     plan = "".join(f"""<li><span class="wk">{E(a)}</span><span>{E(b)}</span></li>""" for a,b in c["plan"])
     nxt = CERTS[(idx_c+1) % len(CERTS)]
-    tips = ["Read every question twice. Many answers are “which service fits this scenario”.", "Use the free practice assessment on Microsoft Learn until you score 80% or more.", "Hands-on practice beats memorising: build what you read about in a free account.", "Skip hard questions and come back. Unanswered questions score zero, so answer everything.", "Check the official study guide a week before your exam in case the skills changed."]
+    tips = ["Read every question twice. Many answers are “which service fits this scenario”.", "Use the current official practice assessment to identify weak objectives, then revisit the study guide.", "Hands-on practice beats memorising: build what you read about in a free account.", "Read each question carefully and identify whether it tests a concept, service choice, or implementation step.", "Check the official study guide a week before your exam in case the skills changed."]
     body = f"""
 <section class="path-hero"><div class="wrap">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="azure.html">Azure</a><span>/</span><span>{E(c['code'])}</span></nav>
