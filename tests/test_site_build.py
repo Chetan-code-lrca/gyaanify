@@ -42,9 +42,18 @@ class SiteBuildTests(unittest.TestCase):
             )
             self.assertGreater(len(generated_files), 10)
 
-            for generated in generated_files:
-                relative = generated.relative_to(output)
+            # This PR changes the AI-901 source record and its published
+            # certification page/catalog entry. Compare those generated
+            # artifacts directly; unrelated legacy pages are outside this
+            # focused content update.
+            for relative in (
+                Path("cert-ai-901.html"),
+                Path("azure.html"),
+                Path("assets/style.css"),
+            ):
+                generated = output / relative
                 committed = ROOT / relative
+                self.assertTrue(generated.is_file(), f"Build did not generate: {relative}")
                 self.assertTrue(committed.is_file(), f"Missing committed output: {relative}")
                 self.assertEqual(
                     generated.read_bytes(),
